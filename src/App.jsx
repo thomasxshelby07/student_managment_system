@@ -5,7 +5,6 @@ import Students from './Students';
 import StudentDetails from './StudentDetails';
 import ErrorBoundary from './ErrorBoundary';
 import { registerCrashHandler } from './reportError';
-import './App.css';
 
 function App() {
   const [students, setStudents] = useState(seedStudents);
