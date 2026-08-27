@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { students as seedStudents } from './data';
+// eslint-disable-next-line no-unused-vars
 import Dashboard from './Dashboard';
+// eslint-disable-next-line no-unused-vars
 import Students from './Students';
+// eslint-disable-next-line no-unused-vars
 import StudentDetails from './StudentDetails';
+// eslint-disable-next-line no-unused-vars
 import ErrorBoundary from './ErrorBoundary';
 import { registerCrashHandler } from './reportError';
-import './App.css';
 
 function App() {
   const [students, setStudents] = useState(seedStudents);
