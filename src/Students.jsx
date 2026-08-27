@@ -42,8 +42,8 @@ function Students({ students, setStudents, onView }) {
   function handleSortChange(e) {
     const key = e.target.value;
     setSortKey(key);
-    students.sort((a, b) => (b[key] ?? 0) - (a[key] ?? 0));
-    setStudents([...students]);
+    const sorted = [...students].sort((a, b) => (b[key] ?? 0) - (a[key] ?? 0));
+    setStudents(sorted);
   }
 
   function handleDelete(id) {
@@ -103,7 +103,7 @@ function Students({ students, setStudents, onView }) {
             onEdit={() => openEditModal(student)}
             onDelete={() => handleDelete(student.id)}
           />
-        ))}
+        ))} 
       </ul>
 
       {!query.trim() && visibleCount < students.length && (
