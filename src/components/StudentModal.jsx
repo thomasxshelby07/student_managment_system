@@ -11,7 +11,7 @@ function StudentModal({ mode, student, onClose, onAdded, onUpdated }) {
           email: student.email ?? '',
           marks: student.marks ?? '',
           attendance: student.attendance ?? '',
-          course: student.profile?.class ?? '',
+          course: student?.profile?.class ?? '',
         }
       : emptyForm
   );
@@ -38,7 +38,7 @@ function StudentModal({ mode, student, onClose, onAdded, onUpdated }) {
         onClose();
       });
     } else {
-      updateStudent(student.id, payload).then((updated) => {
+      updateStudent(student?.id, payload).then((updated) => {
         setSaving(false);
         onUpdated(updated);
         onClose();
