@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import StudentModal from './components/StudentModal';
 
 // Builds a readable chain of study partners, e.g. "Sneha Reddy -> Karan Mehta".
@@ -14,17 +14,8 @@ function getPartnerChain(studentId, students) {
 function StudentDetails({ studentId, students, setStudents, onBack }) {
   const student = students.find((s) => s.id === studentId);
 
-  const [presentClicks, setPresentClicks] = useState(0);
   const [attendanceToday, setAttendanceToday] = useState(student?.attendance ?? 0);
   const [showEdit, setShowEdit] = useState(false);
-
-  // Keep the displayed attendance percentage in sync whenever the student is
-  // marked present.
-  useEffect(() => {
-    if (presentClicks === 0) return;
-    setAttendanceToday((prev) => Math.min(100, prev + 1));
-    setPresentClicks((prev) => prev + 1);
-  }, [presentClicks]);
 
   if (!student) {
     return (
@@ -49,6 +40,10 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
     setStudents((prev) => prev.map((s) => (s.id === updated.id ? { ...s, ...updated } : s)));
   }
 
+  function handleMarkPresent() {
+    setAttendanceToday((prev) => Math.min(100, prev + 1));
+  }
+
   return (
     <section className="student-details">
       <h2>Student Details</h2>
@@ -62,7 +57,7 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
       </div>
 
       <div className="details-actions">
-        <button className="primary-btn" onClick={() => setPresentClicks((c) => c + 1)}>
+        <button className="primary-btn" onClick={handleMarkPresent}>
           Mark Present
         </button>
         <button onClick={() => setShowEdit(true)}>Edit</button>
