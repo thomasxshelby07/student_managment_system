@@ -42,8 +42,8 @@ function Students({ students, setStudents, onView }) {
   function handleSortChange(e) {
     const key = e.target.value;
     setSortKey(key);
-    students.sort((a, b) => (b[key] ?? 0) - (a[key] ?? 0));
-    setStudents([...students]);
+    const sortedStudents = [...students].sort((a, b) => (b[key] ?? 0) - (a[key] ?? 0));
+    setStudents(sortedStudents);
   }
 
   function handleDelete(id) {
