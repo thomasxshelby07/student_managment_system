@@ -53,6 +53,16 @@ function currentState() {
 
 export default {
   async fetch(request) {
+    const authHeader = request.headers.get('Authorization');
+    const expectedSecret = process.env.CRASH_REPORT_SECRET;
+
+    if (expectedSecret && authHeader !== `Bearer ${expectedSecret}`) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     if (request.method === 'GET') {
       return new Response(JSON.stringify(currentState()), {
         status: 200,
