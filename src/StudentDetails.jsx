@@ -23,7 +23,6 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
   useEffect(() => {
     if (presentClicks === 0) return;
     setAttendanceToday((prev) => Math.min(100, prev + 1));
-    setPresentClicks((prev) => prev + 1);
   }, [presentClicks]);
 
   if (!student) {
