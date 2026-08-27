@@ -25,11 +25,10 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
   useEffect(() => {
     if (presentClicks === 0) return;
     setAttendanceToday((prev) => Math.min(100, prev + 1));
-    setPresentClicks((prev) => prev + 1);
   }, [presentClicks]);
 
   if (!student) {
-    return (
+    return ( 
       <section className="student-details">
         <p>Student not found.</p>
         <button className="secondary-btn" onClick={onBack}>
@@ -51,7 +50,7 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
     setStudents((prev) => prev.map((s) => (s.id === updated.id ? { ...s, ...updated } : s)));
   }
 
-  return (
+  return ( 
     <section className="student-details">
       <h2>Student Details</h2>
       <div className="details-card">
