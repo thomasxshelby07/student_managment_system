@@ -27,7 +27,7 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
   }, [presentClicks]);
 
   if (!student) {
-    return (
+    return ( 
       <section className="student-details">
         <p>Student not found.</p>
         <button className="secondary-btn" onClick={onBack}>
@@ -57,7 +57,7 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
         <p>Email: {student.email}</p>
         <p>Marks: {student.marks ?? '—'}</p>
         <p>Attendance: {attendanceToday}%</p>
-        <p>Course/Class: {student.profile.class}</p>
+        <p>Course/Class: {student.profile?.class}</p>
         {partnerNames && <p>Study Partner: {partnerNames}</p>}
       </div>
 
