@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import StudentModal from './components/StudentModal';
 
-// Builds a readable chain of study partners, e.g. "Sneha Reddy -> Karan Mehta".
-// Most students don't have a partner at all, so this only ever recurses one
-// or two levels deep in practice.
-function getPartnerChain(studentId, students) {
+function getPartnerChain(studentId, students, visited = new Set()) {
   const student = students.find((s) => s.id === studentId);
-  if (!student) return [];
+  if (!student || visited.has(studentId)) return [];
+  visited.add(studentId);
   if (!student.studyPartnerId) return [student.name];
-  return [student.name, ...getPartnerChain(student.studyPartnerId, students)];
+  return [student.name, ...getPartnerChain(student.studyPartnerId, students, visited)];
 }
 
 function StudentDetails({ studentId, students, setStudents, onBack }) {
@@ -18,12 +16,9 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
   const [attendanceToday, setAttendanceToday] = useState(student?.attendance ?? 0);
   const [showEdit, setShowEdit] = useState(false);
 
-  // Keep the displayed attendance percentage in sync whenever the student is
-  // marked present.
   useEffect(() => {
     if (presentClicks === 0) return;
     setAttendanceToday((prev) => Math.min(100, prev + 1));
-    setPresentClicks((prev) => prev + 1);
   }, [presentClicks]);
 
   if (!student) {
@@ -57,7 +52,7 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
         <p>Email: {student.email}</p>
         <p>Marks: {student.marks ?? '—'}</p>
         <p>Attendance: {attendanceToday}%</p>
-        <p>Course/Class: {student.profile.class}</p>
+        <p>Course/Class: {student.profile?.class ?? '—'}</p>
         {partnerNames && <p>Study Partner: {partnerNames}</p>}
       </div>
 
