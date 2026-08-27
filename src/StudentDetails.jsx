@@ -4,11 +4,13 @@ import StudentModal from './components/StudentModal';
 // Builds a readable chain of study partners, e.g. "Sneha Reddy -> Karan Mehta".
 // Most students don't have a partner at all, so this only ever recurses one
 // or two levels deep in practice.
-function getPartnerChain(studentId, students) {
+function getPartnerChain(studentId, students, visited = new Set()) {
+  if (visited.has(studentId)) return [];
   const student = students.find((s) => s.id === studentId);
   if (!student) return [];
-  if (!student.studyPartnerId) return [student.name];
-  return [student.name, ...getPartnerChain(student.studyPartnerId, students)];
+  visited.add(studentId);
+  if (!student.studyPartnerId || visited.has(student.studyPartnerId)) return [student.name];
+  return [student.name, ...getPartnerChain(student.studyPartnerId, students, visited)];
 }
 
 function StudentDetails({ studentId, students, setStudents, onBack }) {
