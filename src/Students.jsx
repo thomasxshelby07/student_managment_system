@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+// eslint-disable-next-line no-unused-vars
 import StudentCard from './components/StudentCard';
+// eslint-disable-next-line no-unused-vars
 import StudentModal from './components/StudentModal';
 import { searchStudents, fetchStudentsPage } from './api';
 

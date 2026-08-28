@@ -11,7 +11,7 @@ function StudentModal({ mode, student, onClose, onAdded, onUpdated }) {
           email: student.email ?? '',
           marks: student.marks ?? '',
           attendance: student.attendance ?? '',
-          course: student.profile?.class ?? '',
+          course: student?.profile?.class ?? '',
         }
       : emptyForm
   );
