@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
+// eslint-disable-next-line no-unused-vars
 import StudentModal from './components/StudentModal';
 
 // Builds a readable chain of study partners, e.g. "Sneha Reddy -> Karan Mehta".
 // Most students don't have a partner at all, so this only ever recurses one
 // or two levels deep in practice.
-function getPartnerChain(studentId, students) {
+function getPartnerChain(studentId, students, visited = new Set()) {
+  if (visited.has(studentId)) return [];
   const student = students.find((s) => s.id === studentId);
   if (!student) return [];
-  if (!student.studyPartnerId) return [student.name];
-  return [student.name, ...getPartnerChain(student.studyPartnerId, students)];
+  visited.add(studentId);
+  if (!student.studyPartnerId || visited.has(student.studyPartnerId)) return [student.name];
+  return [student.name, ...getPartnerChain(student.studyPartnerId, students, visited)];
 }
 
 function StudentDetails({ studentId, students, setStudents, onBack }) {
@@ -23,7 +26,6 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
   useEffect(() => {
     if (presentClicks === 0) return;
     setAttendanceToday((prev) => Math.min(100, prev + 1));
-    setPresentClicks((prev) => prev + 1);
   }, [presentClicks]);
 
   if (!student) {
@@ -57,7 +59,7 @@ function StudentDetails({ studentId, students, setStudents, onBack }) {
         <p>Email: {student.email}</p>
         <p>Marks: {student.marks ?? '—'}</p>
         <p>Attendance: {attendanceToday}%</p>
-        <p>Course/Class: {student.profile.class}</p>
+        <p>Course/Class: {student.profile?.class ?? '—'}</p>
         {partnerNames && <p>Study Partner: {partnerNames}</p>}
       </div>
 
