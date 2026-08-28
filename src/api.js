@@ -36,9 +36,16 @@ export function createStudent(data) {
   });
 }
 
-export function updateStudent(id, updates) {
-  return new Promise((resolve) => {
+export function updateStudent(id, updates, user) {
+  return new Promise((resolve, reject) => {
     setTimeout(() => {
+      const student = allStudents.find((s) => s.id === id);
+      if (!student) {
+        return reject(new Error('Student not found'));
+      }
+      if (student.ownerId !== user.id) {
+        return reject(new Error('Unauthorized: You do not have permission to modify this record'));
+      }
       resolve({ id, ...updates });
     }, 1200);
   });
